@@ -1,0 +1,65 @@
+{
+  "name": "stackpulse-sdk",
+  "version": "0.1.0",
+  "description": "Official JavaScript SDK for StackPulse V3 contracts on Stacks",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && vite build && npm run build:types",
+    "build:types": "tsc -p tsconfig.types.json",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm run test"
+  },
+  "keywords": [
+    "stacks",
+    "clarity",
+    "stackpulse",
+    "alerts",
+    "sdk",
+    "web3"
+  ],
+  "author": {
+    "name": "AdekunleBamz",
+    "url": "https://github.com/AdekunleBamz"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdekunleBamz/stackpulse-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AdekunleBamz/stackpulse-sdk/issues"
+  },
+  "homepage": "https://github.com/AdekunleBamz/stackpulse-sdk#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@stacks/network": "^7.3.1",
+    "@stacks/transactions": "^7.3.1"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.0",
+    "typescript": "^5.9.2",
+    "vite": "^5.0.0",
+    "vitest": "^4.0.8"
+  }
+}
