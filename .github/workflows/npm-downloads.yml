@@ -1,0 +1,83 @@
+name: NPM Downloads
+
+# 📦 Package Strategy: Hybrid (5 packages)
+# - 1 SDK package: stackpulse-sdk
+# - 4 ecosystem packages: stackpulse-protocol, stackpulse-utils, stackpulse-types, stackpulse
+# Total daily downloads: 24,000 (60 rounds × 10 batches × 4 packages per round)
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 00:00 (midnight)
+    - cron: '0 6 * * *'   # 06:00 (6am)
+    - cron: '0 12 * * *'  # 12:00 (noon)
+    - cron: '0 18 * * *'  # 18:00 (6pm)
+  workflow_dispatch:
+
+jobs:
+  download-via-npm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        batch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install packages (batch ${{ matrix.batch }})
+        run: |
+          PACKAGES=(
+            "stackpulse-sdk"
+            "stackpulse-protocol"
+            "stackpulse-utils"
+            "stackpulse-types"
+            "stackpulse"
+          )
+          
+          for i in {1..60}; do
+            for pkg in "${PACKAGES[@]}"; do
+              DIR=$(mktemp -d)
+              cd "$DIR"
+              npm init -y
+              npm install "$pkg"
+              cd /
+              rm -rf "$DIR"
+            done
+            sleep 2
+          done
+
+  download-via-pack:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        batch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install packages via pack (batch ${{ matrix.batch }})
+        run: |
+          PACKAGES=(
+            "stackpulse-sdk"
+            "stackpulse-protocol"
+            "stackpulse-utils"
+            "stackpulse-types"
+            "stackpulse"
+          )
+          
+          for pkg in "${PACKAGES[@]}"; do
+            DIR=$(mktemp -d)
+            cd "$DIR"
+            npm init -y
+            npm pack "$pkg"
+            npm install *.tgz
+            cd /
+            rm -rf "$DIR"
+          done
