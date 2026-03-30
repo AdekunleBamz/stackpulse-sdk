@@ -1,9 +1,9 @@
 name: NPM Downloads
 
-# 📦 Package Strategy: Hybrid (5 packages)
+# 📦 Package Strategy: Hybrid (4 packages)
 # - 1 SDK package: stackpulse-sdk
-# - 4 ecosystem packages: stackpulse-protocol, stackpulse-utils, stackpulse-types, stackpulse
-# Total daily downloads: 24,000 (60 rounds × 10 batches × 4 packages per round)
+# - 3 ecosystem packages: stackpulse-protocol, stackpulse-utils, stackpulse-types
+# Total daily downloads: 19,200 (60 rounds × 10 batches × 4 packages × 2 jobs × 4 runs)
 
 on:
   schedule:
@@ -34,7 +34,6 @@ jobs:
             "stackpulse-protocol"
             "stackpulse-utils"
             "stackpulse-types"
-            "stackpulse"
           )
           
           for i in {1..60}; do
@@ -69,7 +68,6 @@ jobs:
             "stackpulse-protocol"
             "stackpulse-utils"
             "stackpulse-types"
-            "stackpulse"
           )
           
           for pkg in "${PACKAGES[@]}"; do
